@@ -2,6 +2,7 @@ package com.jyoti.do_it;
 
 import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -56,7 +57,7 @@ public class Controller implements Initializable {
 				/*System.out.println(currentTask.getPriority());
 				System.out.println(currentTask.getDescription());
 				System.out.println(currentTask.getProgress());*/
-				tasks.add(new Task(2+newValue,"Medium","New Task "+(2+newValue),newValue));
+				//tasks.add(new Task(2+newValue,"Medium","New Task "+(2+newValue),newValue));
 			}
 		});
 
@@ -68,9 +69,9 @@ public class Controller implements Initializable {
 		progressSpinner.getValueFactory().valueProperty().bindBidirectional(currentTask.progressProperty());
 		tasksDescription.textProperty().bindBidirectional(currentTask.descriptionProperty());
 
-		tasks.addAll(new Task(0,"High","Android Associate Developer Course", 20),
-				new Task(1,"Medium","JavaFx Applications",70),
-				new Task(2,"Low","Javascript Tutorial",30));
+		tasks.addAll(new Task(1,"High","Android Associate Developer Course", 20),
+				new Task(2,"Medium","JavaFx Applications",70),
+				new Task(3,"Low","Javascript Tutorial",30));
 		taskTable.setItems(tasks);
 
 		priorityColumn.setCellValueFactory(rowData->rowData.getValue().priorityProperty());
@@ -83,14 +84,37 @@ public class Controller implements Initializable {
 				selectedTask(newValue);
 			}
 		});
+		StringBinding addButtonTextBinding = new StringBinding() {
+			{
+				super.bind(currentTask.idProperty());
+			}
+			@Override
+			protected String computeValue() {
+				if(currentTask.getId() == null)
+					return "Add";
+				else
+					return "Update";
+			}
+		};
+		addBtn.textProperty().bind(addButtonTextBinding);
+		addBtn.disableProperty().bind(Bindings.greaterThan(3, currentTask.descriptionProperty().length()));
 
 	}
 
 	private void selectedTask(Task selectedTask) {
 		if (selectedTask!=null){
+			currentTask.setId(selectedTask.getId());
 			currentTask.setPriority(selectedTask.getPriority());
 			currentTask.setDescription(selectedTask.getDescription());
 			currentTask.setProgress(selectedTask.getProgress());
 		}
+		else{
+			currentTask.setId(0);
+			currentTask.setPriority("");
+			currentTask.setDescription("");
+			currentTask.setProgress(0);
+		}
 	}
+
+
 }
