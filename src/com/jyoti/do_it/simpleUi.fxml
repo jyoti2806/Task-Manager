@@ -42,9 +42,9 @@
         <TableView fx:id="taskTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
                    GridPane.columnSpan="3" GridPane.rowIndex="1">
             <columns>
-                <TableColumn prefWidth="166.0" text="Priority"/>
-                <TableColumn prefWidth="215.0" text="Description"/>
-                <TableColumn minWidth="0.0" prefWidth="217.0" text="Progress"/>
+                <TableColumn fx:id="priorityColumn" prefWidth="166.0" text="Priority"/>
+                <TableColumn fx:id="descriptionColumn" prefWidth="215.0" text="Description"/>
+                <TableColumn fx:id="progressColumn" minWidth="0.0" prefWidth="217.0" text="Progress"/>
             </columns>
         </TableView>
         <ComboBox fx:id="priority" editable="true" prefHeight="25.0" prefWidth="166.0" promptText="Enter Priority"
